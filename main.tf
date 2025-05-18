@@ -41,7 +41,7 @@ resource "aws_mysqldb_table" "mysqldb_table" {
   engine                  = "mysql"
   engine_version          = "8.0"
   instance_class          = "db.t3.micro"
-  allocated_storage       = 20
+  allocated_storage       = 1
   username                = var.db_username
   password                = var.db_password
   db_subnet_group_name    = aws_db_subnet_group.default.name
