@@ -3,3 +3,14 @@ variable "aws_region" {
   type        = string
   default     = "us-east-1"
 }
+
+variable "db_username" {
+  description = "Usuário master do banco MySQL"
+  type        = string
+}
+
+variable "db_password" {
+  description = "Senha do banco MySQL"
+  type        = string
+  sensitive   = true
+}
