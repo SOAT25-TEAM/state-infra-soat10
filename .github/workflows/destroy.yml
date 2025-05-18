@@ -25,7 +25,7 @@ jobs:
     - name: Check local/remote state
       id: check_s3
       run: |
-        if aws s3 ls "s3://postech-5soat-grupo-25-tfstate" 2>&1 | grep -q 'NoSuchBucket'; then
+        if aws s3 ls "s3://postech-10soat-grupo-47-tfstate" 2>&1 | grep -q 'NoSuchBucket'; then
           echo "S3_BUCKET_EXISTS=false" >> $GITHUB_ENV
         else
           echo "S3_BUCKET_EXISTS=true" >> $GITHUB_ENV
@@ -34,7 +34,7 @@ jobs:
     - name: Copy state from S3 to local (if exists)
       if: env.S3_BUCKET_EXISTS == 'true'
       run: |
-        aws s3 cp s3://postech-5soat-grupo-25-tfstate/backend/state  terraform.tfstate
+        aws s3 cp s3://postech-10soat-grupo-47-tfstate/backend/state  terraform.tfstate
 
     - name: Prepare local backend configuration
       run: |
