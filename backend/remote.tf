@@ -1,9 +1,9 @@
 terraform {
     backend "s3" {
-    bucket         = "postech-5soat-grupo-25-tfstate"
+    bucket         = "postech-10soat-grupo-47-tfstate"
     key            = "backend/state"
     region         = "us-east-1"
-    dynamodb_table = "postech-5soat-grupo-25-tflocks"
+    mysqldb_table = "postech-10soat-grupo-47-tflocks"
     encrypt        = true
     }
 }
