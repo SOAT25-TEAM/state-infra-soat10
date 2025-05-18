@@ -35,23 +35,14 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "s3_bucket_sse_enc
   depends_on = [aws_s3_bucket.s3_bucket]
 }
 
-# Tabela no MySqlDB para o bloqueio de estado do Terraform
-resource "aws_mysqldb_table" "mysqldb_table" {
-  identifier              = "${local.prefix}-mysql"
-  engine                  = "mysql"
-  engine_version          = "8.0"
-  instance_class          = "db.t3.micro"
-  allocated_storage       = 1
-  username                = var.db_username
-  password                = var.db_password
-  db_subnet_group_name    = aws_db_subnet_group.default.name
-  skip_final_snapshot     = true
-  publicly_accessible     = false
-  vpc_security_group_ids  = var.security_group_ids
-  storage_encrypted       = true
-  deletion_protection     = false
+# Tabela no DynamoDB para o bloqueio de estado do Terraform
+resource "aws_dynamodb_table" "dynamodb_table" {
+  name         = "${local.prefix}-tflocks"
+  billing_mode = "PAY_PER_REQUEST"
+  hash_key     = "LockID"
 
-  tags = {
-    Name = "${local.prefix}-mysql-db"
+  attribute {
+    name = "LockID"
+    type = "S"
   }
 }
