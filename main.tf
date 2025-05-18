@@ -5,7 +5,7 @@ provider "aws" {
 
 # Prefixo local para nomear os recursos e facilitar a identificação
 locals {
-  prefix = "postech-5soat-grupo-25"
+  prefix = "fast-food-app"
 }
 
 # Bucket S3 para armazenar o estado do Terraform
@@ -35,8 +35,8 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "s3_bucket_sse_enc
   depends_on = [aws_s3_bucket.s3_bucket]
 }
 
-# Tabela no DynamoDB para o bloqueio de estado do Terraform
-resource "aws_dynamodb_table" "dynamodb_table" {
+# Tabela no MySqlDB para o bloqueio de estado do Terraform
+resource "aws_mysqldb_table" "mysqldb_table" {
   name         = "${local.prefix}-tflocks"
   billing_mode = "PAY_PER_REQUEST"
   hash_key     = "LockID"
