@@ -1,19 +1,18 @@
-# `.tfstate` | PosTech 5SOAT • Grupo 25
+# `.tfstate` | PosTech 10SOAT • Grupo 47
 
-Este repositório contém os arquivos necessários para configurar um backend para o Terraform usando o Amazon S3 e o DynamoDB. O objetivo é fornecer uma solução robusta e segura para o armazenamento do estado do Terraform e o bloqueio de estado, respectivamente.
+Este repositório contém os arquivos necessários para configurar um backend para o Terraform usando o Amazon S3 e o MySqlDB. O objetivo é fornecer uma solução robusta e segura para o armazenamento do estado do Terraform e o bloqueio de estado, respectivamente.
 
-## Por que S3 + DynamoDB?
+## Por que S3 + MySqlDB?
 
-O S3 é usado para armazenar o estado do Terraform, permitindo o versionamento e a criptografia dos arquivos de estado. Isso garante que as mudanças no estado possam ser rastreadas e revertidas se necessário, além de proteger os dados.
-
-O DynamoDB é utilizado para o bloqueio de estado, prevenindo que múltiplas instâncias do Terraform apliquem mudanças ao mesmo tempo, o que poderia levar a estados inconsistentes. A combinação desses serviços oferece uma solução de backend robusta para projetos Terraform de qualquer escala.
+A combinação S3 com MySQLDB no backend do Terraform para AWS é uma prática comum para gerenciar o estado do Terraform de forma colaborativa e segura.
+O S3 é utilizado como um "bucket" para armazenar o estado do Terraform, enquanto o MySQLDB é usado para lidar com o bloqueio do estado, garantindo que apenas uma pessoa possa modificar a infraestrutura de cada vez, evitando conflitos.
 
 ## Infraestrutura
 
 A infraestrutura criada por este repositório inclui:
 
 - Um bucket S3 para armazenar o estado do Terraform, com versionamento e criptografia AES256 habilitados para garantir a segurança e a rastreabilidade.
-- Uma tabela no DynamoDB para o bloqueio de estado do Terraform, prevenindo a aplicação simultânea de mudanças que poderiam levar a estados inconsistentes.
+- Uma tabela no MySQLDB para o bloqueio de estado do Terraform, prevenindo a aplicação simultânea de mudanças que poderiam levar a estados inconsistentes.
 
 ## Como Utilizar
 
@@ -30,7 +29,7 @@ Certifique-se de ter os seguintes secrets configurados a nível de organização
 
 O deploy e a destruição do backend são controlados manualmente através de **GitHub Actions**, permitindo uma gestão flexível dos recursos.
 
-- Para *criar* o backend, utilize o workflow `Terraform Backend Deploy`. Este processo configura o bucket S3 e a tabela DynamoDB conforme definido.
+- Para *criar* o backend, utilize o workflow `Terraform Backend Deploy`. Este processo configura o bucket S3 e a tabela MySqlDB conforme definido.
 - Para *destruir* o backend, utilize o workflow `Terraform Backend Destroy`. Este passo é crucial para remover os recursos e evitar custos desnecessários quando não estão em uso.
 
 ### Deploy e Destruição Manual em Ambiente Local
@@ -43,7 +42,7 @@ Para criar o backend, execute o seguinte comando:
 make backend-create
 ```
 
-Este comando inicializará o Terraform, planejará as alterações necessárias e aplicará a configuração para criar o backend, incluindo o bucket S3 e a tabela DynamoDB.
+Este comando inicializará o Terraform, planejará as alterações necessárias e aplicará a configuração para criar o backend, incluindo o bucket S3 e a tabela MySqlDB.
 
 Para destruir o backend criado, utilize o comando:
 
@@ -51,11 +50,11 @@ Para destruir o backend criado, utilize o comando:
 make backend-destroy
 ```
 
-Este comando inicializará o Terraform e destruirá a infraestrutura gerenciada pelo Terraform, removendo o bucket S3 e a tabela DynamoDB.
+Este comando inicializará o Terraform e destruirá a infraestrutura gerenciada pelo Terraform, removendo o bucket S3 e a tabela MySqlDB.
 
 ## Estrutura do Projeto
 
-- `main.tf`: Define os recursos da AWS para o backend, incluindo o bucket S3 e a tabela DynamoDB.
+- `main.tf`: Define os recursos da AWS para o backend, incluindo o bucket S3 e a tabela MySqlDB.
 - `variables.tf`: Variáveis utilizadas na configuração do Terraform.
 - `outputs.tf`: Saídas configuradas para fornecer informações úteis após o deploy.
 - `.github/workflows/deploy.yml`: Workflow do GitHub Actions para o deploy do backend.
